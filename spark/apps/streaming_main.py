@@ -48,20 +48,6 @@ def main():
     
     checkpoint_base = "/tmp/spark-checkpoints"
     
-    # # Configure Nessie catalog using Iceberg's Spark Catalog
-    # spark.conf.set("spark.sql.catalog.nessie", "org.apache.iceberg.spark.SparkCatalog")
-    # spark.conf.set("spark.sql.catalog.nessie.catalog-impl", "org.apache.iceberg.nessie.NessieCatalog")
-    # spark.conf.set("spark.sql.catalog.nessie.uri", "http://nessie:19120/api/v1")
-    # spark.conf.set("spark.sql.catalog.nessie.ref", dev_branch)
-    # spark.conf.set("spark.sql.catalog.nessie.warehouse", "s3a://demo/warehouse")
-    
-    # # Configure S3 access for MinIO
-    # spark.conf.set("spark.hadoop.fs.s3a.endpoint", "http://minio:9000")
-    # spark.conf.set("spark.hadoop.fs.s3a.access.key", "minioadmin")
-    # spark.conf.set("spark.hadoop.fs.s3a.secret.key", "minioadmin")
-    # spark.conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
-    # spark.conf.set("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-    
     # Create schema if it doesn't exist
     print(f"\nUsing branch '{dev_branch}' for all operations...")
     print(f"Creating schema {schema_name} if not exists...")
@@ -227,17 +213,6 @@ def main():
                 .format("iceberg") \
                 .mode("append") \
                 .save(anomaly_table)
-        
-        # 4. Write dead letter records (if needed)
-        # invalid_count = invalid_schema_df.count()
-        # if invalid_count > 0:
-        #     print(f"  Writing {invalid_count} invalid records to '{dlq_table}'...")
-        #     dlq_df = invalid_schema_df.withColumn("error_type", expr("'SCHEMA_VALIDATION_FAILED'")) \
-        #         .withColumn("error_timestamp", current_timestamp())
-        #     dlq_df.write \
-        #         .format("iceberg") \
-        #         .mode("append") \
-        #         .save(dlq_table)
         
         print(f"Batch {batch_id} processing completed.")
     
