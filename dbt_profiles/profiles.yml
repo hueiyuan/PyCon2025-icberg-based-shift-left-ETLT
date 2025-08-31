@@ -1,0 +1,16 @@
+
+trino_nessie_demo:
+  target: dev
+  outputs:
+    dev:
+      type: trino
+      host: trino-coordinator
+      port: 8080
+      user: dbt-user
+      catalog: nessie
+      schema: dbt_models
+      threads: 4
+      # # 透過環境變數指定 Nessie 分支，若未指定則預設為 main
+      # nessie_uri: http://nessie:19120/api/v2
+      # ref: "{{ env_var('NESSIE_BRANCH', 'main') }}"
+

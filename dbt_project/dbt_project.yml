@@ -1,0 +1,15 @@
+name: 'trino_nessie_demo'
+version: '1.0.0'
+config-version: 2
+
+profile: 'trino_nessie_demo'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+models:
+  trino_nessie_demo:

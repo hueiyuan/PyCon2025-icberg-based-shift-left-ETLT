@@ -1,0 +1,2 @@
+# Python dependencies for Kafka producer
+confluent-kafka==2.3.0
