@@ -1,7 +1,5 @@
-version: '3.8'
-
 services:
-  postgres: ## Nessie 的 backend-database (儲存 nessie 的 metadatam, ex. branch, commit)
+  postgres:
     image: postgres:13
     container_name: postgres
     ports:
@@ -83,6 +81,22 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8083:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+      DYNAMIC_CONFIG_ENABLED: "true"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      schema-registry:
+        condition: service_started
 
   nessie:
     image: projectnessie/nessie:0.75.0 # Pinning version for stability
